@@ -65,7 +65,7 @@
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/
-#define S5J_ADC_MAX_CHANNELS	4
+#define S5J_ADC_MAX_CHANNELS	6
 
 #ifndef __ASSEMBLY__
 
@@ -96,6 +96,8 @@ typedef enum {
 	adc_channel_1		= ADC_CON2_ACHSEL_CHANNEL1,
 	adc_channel_2		= ADC_CON2_ACHSEL_CHANNEL2,
 	adc_channel_3		= ADC_CON2_ACHSEL_CHANNEL3,
+	adc_channel_4		= ADC_CON2_ACHSEL_CHANNEL4,
+	adc_channel_5		= ADC_CON2_ACHSEL_CHANNEL5,
 } adc_channel_t;
 
 /****************************************************************************

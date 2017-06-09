@@ -55,7 +55,9 @@
 #include <tinyara/analog/adc.h>
 #include <tinyara/analog/ioctl.h>
 
-#define S5J_ADC_MAX_CHANNELS	4
+#define S5J_ADC_MAX_CHANNELS	6
+
+#define AVERAGE_SAMPLE 10000
 
 void adctest_main(int argc, char *argv[])
 {
@@ -63,6 +65,13 @@ void adctest_main(int argc, char *argv[])
 	struct adc_msg_s sample[S5J_ADC_MAX_CHANNELS];
 	size_t readsize;
 	ssize_t nbytes;
+
+    int averages[S5J_ADC_MAX_CHANNELS];
+    int counts[S5J_ADC_MAX_CHANNELS];
+    int i,j;
+    for (i = 0; i < S5J_ADC_MAX_CHANNELS; ++i) {
+        averages[i] = counts[i] = 0;
+    }
 
 	fd = open("/dev/adc0", O_RDONLY);
 	if (fd < 0) {
@@ -77,6 +86,7 @@ void adctest_main(int argc, char *argv[])
 			close(fd);
 			return;
 		}
+
 
 		readsize = S5J_ADC_MAX_CHANNELS * sizeof(struct adc_msg_s);
 		nbytes = read(fd, sample, readsize);
@@ -93,10 +103,22 @@ void adctest_main(int argc, char *argv[])
 			if (nsamples * sizeof(struct adc_msg_s) != nbytes) {
 				printf("%s: read size=%ld is not a multiple of sample size=%d, Ignoring\n", __func__, (long)nbytes, sizeof(struct adc_msg_s));
 			} else {
-				printf("Sample:\n");
-				int i;
+//				printf("Sample:\n");
+//				int i;
 				for (i = 0; i < nsamples; i++) {
-					printf("%d: channel: %d, value: %d\n", i + 1, sample[i].am_channel, sample[i].am_data);
+
+
+                    averages[sample[i].am_channel] += sample[i].am_data;
+                    counts[sample[i].am_channel]++;
+                    for (j = 0; j < S5J_ADC_MAX_CHANNELS; ++j) {
+                        if (counts[j] > AVERAGE_SAMPLE) {
+                            int average = averages[j] / counts[j];
+                            printf("Channel %d Measurement %d\n", j, average);
+                            averages[j] = 0;
+                            counts[j] = 0;
+                        }
+                    }
+//					printf("%d: channel: %d, value: %d\n", i + 1, sample[i].am_channel, sample[i].am_data);
 				}
 			}
 		}
