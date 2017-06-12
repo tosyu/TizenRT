@@ -128,6 +128,10 @@ EXTRA_LIBS ?=
 EXTRA_LIBPATHS ?=
 LINKLIBS ?=
 
+ifeq ($(CONFIG_SYSTEM_IOTJS),y)
+  EXTRA_LIBS += -lhttpparser -liotjs -ljerry-core -ltuv -ljerry-libm -lhttpparser  -liotjs  -ljerry-core  -ljerry-ext  -ljerry-libm  -ljerry-port-default  -ljerry-port-default-minimal
+endif
+
 ifeq ($(CONFIG_WINDOWS_NATIVE),y)
   BOARDMAKE = $(if $(wildcard .\board\Makefile),y,)
   LIBPATHS += -L"$(TOPDIR)\$(LIBRARIES_DIR)"
@@ -185,6 +189,10 @@ board/libboard$(LIBEXT):
 
 $(BIN_DIR)/tinyara$(EXEEXT): $(HEAD_OBJ) board/libboard$(LIBEXT)
 	$(Q) echo "LD: tinyara"
+	$(Q) echo "EXTRA_LIBS: $(EXTRA_LIBS)"
+	$(Q) echo "LDLIBS: $(LDLIBS)"
+	$(Q) echo "LINKLIBS: $(LINKLIBS)"
+	$(Q) echo "IOTJSLIBS: $(IOTJSLIBS)"
 	$(Q) $(LD) --entry=__start $(LDFLAGS) $(LIBPATHS) $(EXTRA_LIBPATHS) \
 		-o $(TINYARA) $(HEAD_OBJ) $(EXTRA_OBJS) \
 		--start-group $(LDLIBS) $(EXTRA_LIBS) $(LIBGCC) --end-group -Map $(TOPDIR)/../build/output/bin/tinyara.map

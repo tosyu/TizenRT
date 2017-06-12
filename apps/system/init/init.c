@@ -75,6 +75,11 @@ static void tash_register_cmds(void)
 #ifdef CONFIG_BUILTIN_APPS
 	register_examples_cmds();
 #endif
+
+#ifdef CONFIG_SYSTEM_IOTJS
+    iotjs_register_cmd();
+#endif
+
 }
 #endif							/* CONFIG_TASH */
 
