@@ -73,6 +73,10 @@ endif
 
 # Default tools
 
+ifeq ($(PYTHON),)
+PYTHON := python2
+endif
+
 ifeq ($(DIRLINK),)
 DIRLINK = $(TOPDIR)/tools/link.sh
 DIRUNLINK = $(TOPDIR)/tools/unlink.sh
@@ -624,8 +628,8 @@ subdir_distclean:
 
 memstat:
 ifneq ($(MEMSTATS),)
-	$(Q) python ./tools/memstats_$(MEMSTATS).py -l -f ../build/output/bin/tinyara.map
-	$(Q) python ./tools/memstats_$(MEMSTATS).py -a -f ../build/output/bin/tinyara.map -o ../build/output/bin/tinyara_memstats.txt
+	$(Q) $(PYTHON) ./tools/memstats_$(MEMSTATS).py -l -f ../build/output/bin/tinyara.map
+	$(Q) $(PYTHON) ./tools/memstats_$(MEMSTATS).py -a -f ../build/output/bin/tinyara.map -o ../build/output/bin/tinyara_memstats.txt
 endif
 
 distclean: clean subdir_distclean clean_context
