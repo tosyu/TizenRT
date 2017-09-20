@@ -59,6 +59,11 @@
  * Included Files
  ****************************************************************************/
 
+#include <tinyara/config.h>
+#ifndef CONFIG_ARCH_HAVE_SETJMP
+#error "setjmp not supported on this arch!"
+#else /* defined CONFIG_ARCH_HAVE_SETJMP */
+
 #include <arch/types.h>
 #include <arch/setjmp.h>
 #include <tinyara/compiler.h>
@@ -83,5 +88,7 @@ int setjmp(jmp_buf env);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* defined CONFIG_ARCH_HAVE_SETJMP */
 
 #endif							/* __INCLUDE_SETJMP_H */

@@ -13,6 +13,7 @@ config ARCH_ARM
 	select ARCH_HAVE_VFORK
 	select ARCH_HAVE_STACKCHECK
 	select ARCH_HAVE_CUSTOMOPT
+	select ARCH_HAVE_SETJMP
 	---help---
 		The ARM architectures
 endchoice
@@ -82,6 +83,10 @@ config ARCH_HAVE_POWEROFF
 	default n
 
 config ARCH_HAVE_RESET
+	bool
+	default n
+
+config ARCH_HAVE_SETJMP
 	bool
 	default n
 

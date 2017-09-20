@@ -6,6 +6,7 @@
 config EXAMPLES_SETJMP_TEST
 	bool "setjmp/longjmp test"
 	default n
+	depends on ARCH_HAVE_SETJMP
 	---help---
         setjmp/longjmp pair of functions facilitate execution context management in plain C.
         You can think of them as exception handling/coroutine facilitating mechanism.
