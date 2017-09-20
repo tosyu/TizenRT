@@ -520,6 +520,17 @@ endif
 
 $(BIN): pass1deps pass2deps pass1 pass2
 
+# ROMFS
+# Optional arguments are platform-specific
+rom:
+ifeq ($(MAKEROMFS),)
+	@echo "ERROR: MAKEROMFS not defined (should be in ${TOPDIR}/Make.defs)"
+	@false
+else
+	$(call MAKEROMFS, $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS)))
+endif
+	@:
+
 # download
 #
 # This is a helper target that will rebuild TinyAra and download it to the target
