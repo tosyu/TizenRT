@@ -164,7 +164,8 @@ struct netif *ip_route(ip_addr_t *dest)
 	for (netif = netif_list; netif != NULL; netif = netif->next) {
 		/* network mask matches? */
 		if (netif_is_up(netif)) {
-			if (dest->addr == 0xffffffff || ip_addr_netcmp(dest, &(netif->ip_addr), &(netif->netmask))) {
+			if (dest->addr == 0xffffffff || ip_addr_ismulticast(dest) ||
+          ip_addr_netcmp(dest, &(netif->ip_addr), &(netif->netmask))) {
 				/* return netif on which to forward IP packet */
 				return netif;
 			}
